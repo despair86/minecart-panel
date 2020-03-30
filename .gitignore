@@ -1,0 +1,9 @@
+include/
+lib/
+man/
+sbin/
+share/
+*.o
+*.a
+*.lib
+minecart-panel
