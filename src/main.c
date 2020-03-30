@@ -32,6 +32,39 @@ static const route_handler handlers[PAGE__MAX] = {
 	sendlogin
 };
 
+const char *const pages[PAGE__MAX] = {
+	"index", /* PAGE_INDEX */
+	"login", /* PAGE_LOGIN  */
+};
+
+/*
+ * Open an HTTP response with a status code and a particular
+ * content-type, then open the HTTP content body.
+ * You can call khttp_head(3) before this: CGI doesn't dictate any
+ * particular header order.
+ */
+void
+resp_open(req, http)
+struct kreq *req;
+enum khttp http;
+{
+	enum kmime mime;
+
+	/*
+	 * If we've been sent an unknown suffix like '.foo', we won't
+	 * know what it is.
+	 * Default to an octet-stream response.
+	 */
+	if (KMIME__MAX == (mime = req->mime))
+		mime = KMIME_APP_OCTET_STREAM;
+
+	khttp_head(req, kresps[KRESP_STATUS],
+		"%s", khttps[http]);
+	khttp_head(req, kresps[KRESP_CONTENT_TYPE],
+		"%s", kmimetypes[mime]);
+	khttp_body(req);
+}
+
 main(argc, argv)
 char** argv;
 {

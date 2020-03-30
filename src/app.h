@@ -28,21 +28,14 @@
  *   - /cgi-bin/admin/login
  */
 
-#pragma once
+#ifndef APP_H
+#define APP_H
 
-/* Recognised URI routes.  See pages[]. */
+/* Recognised URI routes.  See pages[] in main.c. */
 enum page {
 	PAGE_INDEX, /* this shows _behind_ the login page */
 	PAGE_LOGIN,
 	PAGE__MAX
-};
-
-/*
- * The actual URI route names: e.g., /admin/login -> login -> PAGE_LOGIN.
- */
-const char *const pages[PAGE__MAX] = {
-	"index", /* PAGE_INDEX */
-	"login", /* PAGE_LOGIN  */
 };
 
 /* web app api routes: for each route in page[], add a route handler here and in
@@ -50,6 +43,8 @@ const char *const pages[PAGE__MAX] = {
  */
 void sendindex(struct kreq *);
 void sendlogin(struct kreq *);
+
+void resp_open(struct kreq *req, enum khttp http);
 
 /*
  * We need a structure because we can't get the "r" from the request.
@@ -66,3 +61,6 @@ struct tstrct {
  * Then when the page is parsed, we'll route directly into it.
  */
 typedef void (*route_handler)(struct kreq *);
+
+#endif /* APP_H */
+

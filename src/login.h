@@ -31,11 +31,11 @@
  */
 
 /*
- * The elements in our template file.
+ * The elements in our login template file.
  * The element key names are in the "templs" array.
  * See sendtemplate() for how this is used.
  */
-enum index_templ {
+enum login_templ {
 	TEMPL_TITLE,
 	TEMPL_NAME,
 	TEMPL_REMOTE_ADDR,

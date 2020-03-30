@@ -1,0 +1,5 @@
+Place app route templates under this folder. Rename index.* to template.xml. Any assets required by the template should be in their respective folders.
+
+URI route - template folder
+/login - login/*
+/panel - index/*

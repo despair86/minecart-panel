@@ -37,34 +37,6 @@ static const char *const login_templs[LOGIN_TEMPL__MAX] = {
 };
 
 /*
- * Open an HTTP response with a status code and a particular
- * content-type, then open the HTTP content body.
- * You can call khttp_head(3) before this: CGI doesn't dictate any
- * particular header order.
- */
-static void
-resp_open(req, http)
-struct kreq *req;
-enum khttp http;
-{
-	enum kmime mime;
-
-	/*
-	 * If we've been sent an unknown suffix like '.foo', we won't
-	 * know what it is.
-	 * Default to an octet-stream response.
-	 */
-	if (KMIME__MAX == (mime = req->mime))
-		mime = KMIME_APP_OCTET_STREAM;
-
-	khttp_head(req, kresps[KRESP_STATUS],
-		"%s", khttps[http]);
-	khttp_head(req, kresps[KRESP_CONTENT_TYPE],
-		"%s", kmimetypes[mime]);
-	khttp_body(req);
-}
-
-/*
  * Callback for filling in a particular template part.
  * Let's just be simple for simplicity's sake.
  */
@@ -77,7 +49,7 @@ void* arg;
 
 	switch (key) {
 	case (TEMPL_TITLE):
-		khtml_puts(&p->req, "title");
+		khtml_puts(&p->req, "Minecraft Admin Panel");
 		break;
 	case (TEMPL_NAME):
 		khtml_puts(&p->req, "name");
@@ -107,14 +79,14 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = templs;
-	t.keysz = TEMPL__MAX;
+	t.key = login_templs;
+	t.keysz = LOGIN_TEMPL__MAX;
 	t.arg = &p;
 	t.cb = template;
 
 	resp_open(req, KHTTP_200);
 	khtml_open(&p.req, req, 0);
-	khttp_template(req, &t, "template.xml");
+	khttp_template(req, &t, "templates/index/template.xml");
 	khtml_close(&p.req);
 }
 
@@ -134,14 +106,14 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = templs;
-	t.keysz = TEMPL__MAX;
+	t.key = login_templs;
+	t.keysz = LOGIN_TEMPL__MAX;
 	t.arg = &p;
 	t.cb = template;
 
 	resp_open(req, KHTTP_200);
 	khtml_open(&p.req, req, 0);
-	khttp_template(req, &t, "template.xml");
+	khttp_template(req, &t, "templates/login/template.xml");
 	khtml_close(&p.req);
 }
 
