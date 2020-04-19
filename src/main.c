@@ -25,7 +25,6 @@
 #include "kcgi.h"
 #include "kcgihtml.h"
 #include "app.h"
-#include "login.h"
 
 static const route_handler handlers[PAGE__MAX] = {
 	sendindex, /* PAGE_INDEX */

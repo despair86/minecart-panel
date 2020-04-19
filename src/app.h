@@ -1,4 +1,4 @@
-/*	$Id: login.h,v 1.0 2020/03/29 15:20:40 despair Exp $ */
+/*	$Id: app.h,v 1.0 2020/03/29 15:20:40 despair Exp $ */
 /*
  * Copyright (c) 2014, 2015, 2017 Kristaps Dzonsons <kristaps@bsd.lv>
  * Copyright (c) 2020 Rick V. All rights reserved.
@@ -44,6 +44,7 @@ enum page {
 void sendindex(struct kreq *);
 void sendlogin(struct kreq *);
 
+/* a utility function */
 void resp_open(struct kreq *req, enum khttp http);
 
 /*
@@ -53,6 +54,18 @@ void resp_open(struct kreq *req, enum khttp http);
 struct tstrct {
 	struct khtmlreq req;
 	struct kreq *r;
+};
+
+/*
+ * The elements in our template files.
+ * The element key names are in the "templs" array.
+ * See sendtemplate() for how this is used.
+ */
+enum template_fields {
+	TEMPL_TITLE,
+	TEMPL_NAME,
+	TEMPL_REMOTE_ADDR,
+	TEMPL__MAX
 };
 
 /*

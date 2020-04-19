@@ -25,12 +25,11 @@
 #include "kcgi.h"
 #include "kcgihtml.h"
 #include "app.h"
-#include "login.h"
 
 /*
  * Template key names (as in @@TITLE@@ in the file).
  */
-static const char *const login_templs[LOGIN_TEMPL__MAX] = {
+static const char *const template_field_names[TEMPL__MAX] = {
 	"title", /* TEMPL_TITLE */
 	"name", /* TEMPL_NAME */
 	"remote_addr", /* TEMPL_REMOTE_ADDR */
@@ -79,8 +78,8 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = login_templs;
-	t.keysz = LOGIN_TEMPL__MAX;
+	t.key = template_field_names;
+	t.keysz = TEMPL__MAX;
 	t.arg = &p;
 	t.cb = template;
 
@@ -90,11 +89,6 @@ struct kreq *req;
 	khtml_close(&p.req);
 }
 
-/*
- * Demonstrates how to use GET and POST forms and building with the HTML
- * builder functions.
- * Returns HTTP 200 and HTML content.
- */
 void
 sendlogin(req)
 struct kreq *req;
@@ -106,8 +100,8 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = login_templs;
-	t.keysz = LOGIN_TEMPL__MAX;
+	t.key = template_field_names;
+	t.keysz = TEMPL__MAX;
 	t.arg = &p;
 	t.cb = template;
 
