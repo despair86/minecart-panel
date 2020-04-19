@@ -1,0 +1,23 @@
+# Makefile for BSD or GNU/Linux with GCC or Clang
+CC = clang
+SHELL = /bin/sh
+INCS =  -I../include
+CFLAGS = $(INCS) -O3 -march=native -mfpmath=sse -flto
+OBJS = main.o login.o sqlite3.o bcrypt.o crypt_gensalt.o crypt_blowfish.o x86.o wrapper.o
+
+all: $(OBJS)
+	$(CC) $(OBJS) -O3 -march=native -mfpmath=sse -flto -o minecart-panel -L../lib -lkcgihtml -lkcgi -lz -lc
+
+main.o: main.c
+login.o: login.c
+sqlite3.o: sqlite3.c
+crypt_blowfish.o: crypt_blowfish.c
+crypt_gensalt.o: crypt_gensalt.c
+bcrypt.o: bcrypt.c
+x86.o: x86.S
+wrapper.o: wrapper.c
+
+clean:
+	find . -name \*.o -delete
+	-rm minecart-panel
+
