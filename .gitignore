@@ -7,3 +7,4 @@ share/
 *.a
 *.lib
 minecart-panel
+sqlite3
