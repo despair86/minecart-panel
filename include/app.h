@@ -57,18 +57,6 @@ struct tstrct {
 };
 
 /*
- * The elements in our template files.
- * The element key names are in the "templs" array.
- * See sendtemplate() for how this is used.
- */
-enum template_fields {
-	TEMPL_TITLE,
-	TEMPL_NAME,
-	TEMPL_REMOTE_ADDR,
-	TEMPL__MAX
-};
-
-/*
  * We'll use this to route pages by creating an array indexed by our
  * page.
  * Then when the page is parsed, we'll route directly into it.

@@ -26,10 +26,22 @@
 #include "kcgihtml.h"
 #include "app.h"
 
+ /*
+ * The elements in our template files.
+ * The element key names are in the "templs" array.
+ * See sendtemplate() for how this is used.
+ */
+enum login_template_fields {
+	LOGIN_TEMPL_TITLE,
+	LOGIN_TEMPL_NAME,
+	LOGIN_TEMPL_REMOTE_ADDR,
+	LOGIN_TEMPL__MAX
+};
+
 /*
  * Template key names (as in @@TITLE@@ in the file).
  */
-static const char *const template_field_names[TEMPL__MAX] = {
+static const char *const login_template_field_names[LOGIN_TEMPL__MAX] = {
 	"title", /* TEMPL_TITLE */
 	"name", /* TEMPL_NAME */
 	"remote_addr", /* TEMPL_REMOTE_ADDR */
@@ -40,20 +52,20 @@ static const char *const template_field_names[TEMPL__MAX] = {
  * Let's just be simple for simplicity's sake.
  */
 static
-template(key, arg)
+login_template(key, arg)
 size_t key;
 void* arg;
 {
 	struct tstrct *p = arg;
 
 	switch (key) {
-	case (TEMPL_TITLE):
+	case (LOGIN_TEMPL_TITLE):
 		khtml_puts(&p->req, "Minecraft Admin Panel");
 		break;
-	case (TEMPL_NAME):
+	case (LOGIN_TEMPL_NAME):
 		khtml_puts(&p->req, "name");
 		break;
-	case (TEMPL_REMOTE_ADDR):
+	case (LOGIN_TEMPL_REMOTE_ADDR):
 		khtml_puts(&p->req, p->r->remote);
 		break;
 	default:
@@ -78,10 +90,10 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = template_field_names;
-	t.keysz = TEMPL__MAX;
+	t.key = login_template_field_names;
+	t.keysz = LOGIN_TEMPL__MAX;
 	t.arg = &p;
-	t.cb = template;
+	t.cb = login_template;
 
 	resp_open(req, KHTTP_200);
 	khtml_open(&p.req, req, 0);
@@ -100,10 +112,10 @@ struct kreq *req;
 	memset(&p, 0, sizeof(struct tstrct));
 
 	p.r = req;
-	t.key = template_field_names;
-	t.keysz = TEMPL__MAX;
+	t.key = login_template_field_names;
+	t.keysz = LOGIN_TEMPL__MAX;
 	t.arg = &p;
-	t.cb = template;
+	t.cb = login_template;
 
 	resp_open(req, KHTTP_200);
 	khtml_open(&p.req, req, 0);
